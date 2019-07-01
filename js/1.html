@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // bind、apply、call的区别
+        /**
+         * bind 是重新生成一个函数，长期绑定一个函数给某个对象使用
+         * apply的第一个参数是指向，第二个参数是其他的参数拼接成数组 fn.apply(this, [arg1, arg2, ...])
+         * bind和call的第一个参数是指向,其他参数依次拼写 fn.bind(this, arg1, arg2, ...)
+         */
+        
+        // 使用方法
+        (function() {
+            function fn() {
+                console.log(this, arguments)
+            }
+            const obj = {name: '我是obj对象'}
+            // fn()
+            // fn.call(obj, 'a', 'b')
+            // fn.apply(obj, [ 'a', 'b'])
+            let newfn = fn.bind(obj, 'a', 'b')
+            newfn('c', 'd')
+        })();
+
+
+        // 实现bind
+        (function() {
+            function fn() {
+                console.log(this, arguments)
+            }
+            if(!Function.prototype._bind) {
+                Function.prototype._bind = function() {
+                    if(typeof this !== 'function')  {
+                        console.error('不是函数')
+                    }
+                    let [obj, ...rest] = arguments
+                    let self = this
+                    return function() {
+                        self.apply(obj, [...rest, ...arguments])
+                    }
+                }
+            }
+            const obj = {name: '我是obj对象'}
+            let newfn = fn._bind(obj, 'a', 'b')
+            let newfn2 = fn._bind(obj, 'a', 'b')
+            newfn('c', 'd')
+            newfn2('c', 'd')
+        })();
+
+        // 实现 call 函数
+        (function() {
+            Function.prototype._call = function(argthis, ...rest){
+                if(!argthis) {
+                    argthis = typeof argthis === 'undefind' ? global : window
+                }
+                argthis.fun = this
+                let result = argthis.fun(...rest)
+                delete argthis.fun
+                return result
+            }
+            function fn() {
+                console.log(this, arguments)
+            }
+            const obj = {name: '我是obj对象'}
+            fn()
+            fn._call(obj, 'a', 'b')
+            fn.call(obj, 'a', 'b')
+        })();
+
+
+        // 实现 call 函数
+        (function() {
+            Function.prototype._apply = function(argthis, ...rest){
+                if(!argthis) {
+                    argthis = typeof argthis === 'undefind' ? global : window
+                }
+                argthis.fun = this
+                let result = argthis.fun(rest)
+                delete argthis.fun
+                return result
+            }
+            function fn() {
+                console.log(this, arguments)
+            }
+            const obj = {name: '我是obj对象'}
+            // fn()
+            fn._apply(obj,['a', 'b'])
+            // fn.call(obj, 'a', 'b')
+        })()
+    </script>
+</body>
+</html>

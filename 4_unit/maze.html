@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 0 能走 1 障碍物
+        const arr = [
+            [0,0,1,0],
+            [0,0,0,0],
+            [0,0,1,0]
+            [0,1,0,0]
+            [0,0,0,1]
+        ]
+        const maze = (arr, start, end) => {
+            let book = new Array(arr.length).fill(new Array(arr[0].length).fill(0))
+            let n = 0
+            let min = 100
+            let list = []
+            const dfs = ([x, y], step) => {
+                if(x === 0 && y === 0) {
+                    n++
+                    list[n] = []
+                }
+                let next = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+                if(x === end[0] && y === end[1]) {
+                    if(min > step) min = step
+                    console.log(min)
+                }
+                for(let i=0; i< 4; i++) {
+                    let tx = next[i][0] + x
+                    let ty = next[i][1] + y
+                    if(x < 0 || y < 0 || x > arr[0].length-1 || y > arr.length-1) continue
+                    if(tx < 0 || ty < 0 || tx > arr[0].length-1 || ty > arr.length-1) continue
+                    if(book[tx][ty] === 0) {
+                        book[tx][ty] = 1
+                        list[n].push([tx, ty])
+                        dfs([tx, ty], step+1)
+                        book[tx][ty] = 0
+                    }
+                    continue
+                }
+            }
+            book[0][0] = 1
+            dfs(start, 0)
+        }
+        maze(arr, [0,0], [2,3])
+    
+    </script>
+</body>
+</html>
