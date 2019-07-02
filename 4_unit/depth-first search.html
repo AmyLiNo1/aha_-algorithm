@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const fun = (n) => {
+            var a = new Array(n).fill(0);
+            var book = new Array(n).fill(0)
+            const dfs = (step) => {
+                if(step === n) {
+                    a.map(o => o+1)
+                    if(a[0]*100+a[1]*10+a[2] === a[3]*100+a[4]*10+a[5]+a[6]*100+a[7]*10+a[8]) {
+                        console.log(a)
+                    }
+                    return 
+                }
+                for(let i = 0; i< n;i ++) {
+                    if(book[i] === 0) {
+                        a[step] = i;
+                        book[i] = 1
+                        dfs(step+1)
+                        book[i] = 0
+                    }
+                    continue
+                }
+            
+            }
+            dfs(0)
+        }
+        fun(9)
+    </script>
+</body>
+</html>
