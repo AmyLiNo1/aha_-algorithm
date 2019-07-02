@@ -1,12 +1,21 @@
 // class_use.js 转化为es5的代码,和添加的部分注释
-
-
+ /** 
+ * 1. 继承 
+ * subClass.prototype ,  
+ * 手动定义 Henan.__proto__ = People
+ * 
+ * 2. static方法，放到类上
+ * 默认的public方法，放到类。prototype上 实例可以取到
+ */
 /**
  * class方法,转化为es5比较重要的代码
  * 1. 继承_inherits方法, 子类的原型=Object.create({}, {父类的prototype}, {con: 子类})
  * 同时也定义了子类.__proto__ = 父类, 在es5的构造函数里是 类的实例.__proto__ = 类.prototype
  * 2. 创建构造函数的时候,执行了一个方法,用来区分static方法和原型方法,原型方法直接放在了子类的prototype上,静态方法放在子类本身上
  */
+
+
+// class_use.js 转化为es5的代码,和添加的部分注释
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -56,8 +65,12 @@ function _defineProperties(target, props) {
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
-// ***2
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
 
 // 构造函数是一个自调用的匿名函数
 var _People =

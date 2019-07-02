@@ -5,6 +5,8 @@
 2. bubble.sort 冒泡排序
 3. quick.sort 快速排序
 4. unique.sort 去重后排序
+5. selection.sort 选择排序
+6. shell.sort 希尔排序
 ```js 去重
 arr.sort((a, b) => {return b-a})
 console.log(arr)

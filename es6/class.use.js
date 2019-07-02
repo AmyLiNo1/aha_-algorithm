@@ -5,7 +5,7 @@ class _People {
     this.age = age;
   }
   // 静态方法,不能通过类的实例实例调用,只能通过类本身调用
-  static say() {
+  say() {
     console.log("hello");
   }
   see() {
@@ -24,12 +24,18 @@ class _Child extends _People {
   static home() {
     return `static home method`;
   }
+  say() {
+      console.log(111)
+      super.say()
+  }
   // 可以通过这样的方法,调用static的方法
   // this.constructor.home() ||  _Child.home()
   homepage(hometown) {
     console.log(
+        this,
       `i am from ${hometown}`,
       this.constructor.home(),
+      this.constructor === _Child,
       _Child.home()
     );
   }
@@ -39,7 +45,7 @@ const xiaohong = new _Child("xiaohong", 13);
 xiaohong.see();
 xiaohong.homepage();
 _Child.home();
-
+xiaohong.say()
 console.log(
   _Child.__proto__ === _People,
   xiaohong.__proto__ === _Child.prototype
